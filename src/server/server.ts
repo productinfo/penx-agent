@@ -59,14 +59,15 @@ export function run() {
 
   app.get('/add-nodes-successfully', async (req, res) => {
     nodeService.clearDB()
+    // console.log('successfully added nodes======')
 
     res.json({
       success: true,
     })
   })
 
-  app.get('/keeper-sse', (req, res) => {
-    // app.post("/keeper-sse", (req, res) => {
+  app.get('/agent-sse', (req, res) => {
+    // app.post("/agent-sse", (req, res) => {
     res.setHeader('Content-Type', 'text/event-stream')
     res.setHeader('Cache-Control', 'no-cache')
     res.setHeader('Connection', 'keep-alive')

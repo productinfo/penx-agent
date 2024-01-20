@@ -24,12 +24,9 @@ const config: ForgeConfig = {
     name: 'PenX Agent',
     executableName: 'penx-agent',
     appBundleId: 'com.penxio.penx-agent',
+    icon: path.resolve(__dirname, 'assets', 'icons', 'penx'),
   },
-  rebuildConfig: {
-    // force: true,
-    // useCache: true,
-    // extraModules: ["appdmg"],
-  },
+  rebuildConfig: {},
   makers: [
     new MakerSquirrel({}),
     new MakerZIP({}, ['darwin']),
