@@ -1,0 +1,37 @@
+name: Release
+# on:
+#   release:
+#     types:
+#       - created
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os:
+          [
+            { name: 'linux', image: 'ubuntu-latest' },
+            { name: 'windows', image: 'windows-latest' },
+            { name: 'macos', image: 'macos-latest' },
+          ]
+    runs-on: ${{ matrix.os.image }}
+    steps:
+      - name: Github checkout
+        uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Use Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install
+      - name: Publish app
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run publish
