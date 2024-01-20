@@ -1,5 +1,9 @@
 import type { Configuration } from 'webpack'
 
+import { resolve } from 'path'
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+
 import { rules } from './webpack.rules'
 import { plugins } from './webpack.plugins'
 
@@ -13,7 +17,18 @@ export const mainConfig: Configuration = {
   module: {
     rules,
   },
-  plugins,
+  plugins: [
+    ...plugins,
+
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: resolve(__dirname, 'src', 'assets'),
+          to: resolve(__dirname, '.webpack', 'main', 'assets'),
+        },
+      ],
+    }),
+  ],
   resolve: {
     extensions: ['.js', '.ts', '.jsx', '.tsx', '.css', '.json'],
   },

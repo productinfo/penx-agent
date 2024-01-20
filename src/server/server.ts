@@ -1,4 +1,5 @@
 import EventEmitter from 'events'
+import { join } from 'path'
 import bodyParser from 'body-parser'
 import cors from 'cors'
 
@@ -24,6 +25,7 @@ export function run() {
   app.use(bodyParser.urlencoded({ extended: false }))
   app.use(bodyParser.json())
   app.use(cors())
+  app.use(express.static(join(__dirname, 'assets')))
 
   app.get('/', async (req, res) => {
     res.json({
