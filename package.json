@@ -1,7 +1,7 @@
 {
   "name": "penx-agent",
   "productName": "PenX Agent",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Penx",
   "main": ".webpack/main",
   "scripts": {
