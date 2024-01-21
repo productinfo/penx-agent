@@ -11,12 +11,11 @@ const emitter = new EventEmitter()
 const port = process.env.PORT || 65432
 
 enum EventType {
-  ADD_TEXT = 'ADD_TEXT',
-  ADD_NODE = 'ADD_NODE',
+  ADD_NODES = 'ADD_NODES',
 }
 
 type AddTextEvent = {
-  eventType: EventType.ADD_TEXT
+  eventType: EventType.ADD_NODES
   data: string
 }
 
@@ -37,9 +36,7 @@ export function run() {
   app.all('/add-text', (req, res) => {
     const { method } = req
     if (!['POST', 'GET'].includes(method)) {
-      res.json({
-        success: false,
-      })
+      res.json({ success: false })
       return
     }
 
@@ -49,8 +46,24 @@ export function run() {
 
     const data = nodeService.readItems()
 
-    emitter.emit(EventType.ADD_TEXT, {
-      eventType: EventType.ADD_TEXT,
+    emitter.emit(EventType.ADD_NODES, {
+      eventType: EventType.ADD_NODES,
+      data,
+    })
+
+    res.json({
+      success: true,
+    })
+  })
+
+  app.post('/add-nodes', (req, res) => {
+    const nodes = req.body.nodes
+    nodeService.addNodes(nodes)
+
+    const data = nodeService.readItems()
+
+    emitter.emit(EventType.ADD_NODES, {
+      eventType: EventType.ADD_NODES,
       data,
     })
 
@@ -77,7 +90,7 @@ export function run() {
     const data = `data: ${JSON.stringify({})}\n\n`
     res.write(data)
 
-    emitter.on(EventType.ADD_TEXT, (ev: AddTextEvent) => {
+    emitter.on(EventType.ADD_NODES, (ev: AddTextEvent) => {
       const msg = JSON.stringify(ev)
       const data = `data: ${msg}\n\n`
       res.write(data)

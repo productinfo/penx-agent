@@ -3,6 +3,7 @@ import { app } from 'electron'
 import { join } from 'path'
 import jetpack from 'fs-jetpack'
 import { createNodeFromText } from './createNodeFromText'
+import { INode } from './INode'
 
 function getDbPath() {
   const fileName = 'db.json'
@@ -36,6 +37,18 @@ class NodeService {
       nodeData: JSON.stringify(node),
       added: false,
     })
+    writeDB(data)
+  }
+
+  addNodes(nodes: INode[]) {
+    const data = readDB()
+    for (const node of nodes) {
+      data.push({
+        id: uuidv4(),
+        nodeData: JSON.stringify(node),
+        added: false,
+      })
+    }
     writeDB(data)
   }
 
