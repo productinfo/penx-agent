@@ -58,6 +58,9 @@ export function run() {
 
   app.post('/add-nodes', (req, res) => {
     const nodes = req.body.nodes
+
+    // console.log('==========nodes:', nodes)
+
     nodeService.addNodes(nodes)
 
     const data = nodeService.readItems()
